@@ -85,7 +85,7 @@ function thirdSlide() {
     var slides=document.getElementsByClassName("full");
     slides[2].innerHTML+="<div class='selecter'><label for='gridBox'>Select radius of bubbles:</label><select id='gridBox'><option value='0'>10-16</option><option selected value='1'>20-26</option><option value='2'>30-36</option></select></div>";
     slides[2].innerHTML+="<button class='target' onclick='setTargets()'>PLAY NOW</button></form>";
-    document.getElementsByClassName("text")[2].innerHTML="Set the number of blocks";
+    document.getElementsByClassName("text")[2].innerHTML="Set the radius";
 }
 function linkStyle(btn) {
     playMode = (btn.checked==true)? true: false;
