@@ -1,6 +1,6 @@
 # sopTask1webDev
 ## Basic task:
-1.Front(intro) page with neon glow look has been achieved with responsiveness. Morever frontpage can be navigated with up, down and enter keys(from play game to instruction to high scores) as well as with mouse clicks. A preview image of my game has been givn on frontpage.
+1.Front(intro) page with neon glow look has been achieved with responsiveness. Morever frontpage can be navigated with up, down and enter keys(from play game to instruction to high scores) as well as with mouse clicks. A preview image of my game has been givn on frontpage.\
 A modal box(fully self designed) will appear for setting difficulty options, viewing instruction and on pausing the game. Instructions have been designed as a very interactive styled list in a modal box. A home button has been provided on gamepage and highscores page to navigate back to index page.
 2.The bubbles have been created using a linear gradient with stopcolors and the user can choose the color of their choice for the bubbles
 while setting difficulty options. A shiny white curve has been given on each bubble. The bubbles collide elastically and move in opposite direction on hitting sides of the screen.Bubble(generation) seem to rise up from the bottom of the canvas. Bubbles disappear immediately on clicking.
@@ -19,4 +19,4 @@ Same applies when player plays in fast growing bubbles(rate of growth of radius 
 6. Three sounds have been used-A bubble popping sound has been used for each bursting bubble. Morever an alarm beep sound has been used with the timer. A gameover sound is also played consequently.
 7. High scores are depicted in abar graph drawn sing pure canvas with an interactive background of rotating plus symbols.
 8. The user can also select the range of initial radius of bubbles in the 'play game difficulty options modal box': 10-16, 20-26, 30-36
-ALmost all features from basic and advanced mode have been implement(along with some extra ones as well).
+Almost all features from basic and advanced mode have been implement(along with some extra ones as well).
