@@ -8,7 +8,7 @@ while setting difficulty options. A shiny white curve has been given on each bub
 5.My scoring system is very unique - I have an accuracy%(which accounts for percentage of correct number of clicks) which will be multiplied by score to get points. If the player plays in quick mode(rate of bubble generation will be double) his points will be doubled\
 Same applies when player plays in fast growing bubbles(rate of growth of radius of bubbles will be double) mode.\
 6.Game can be paused(even when the timer is running) or resumed at any point of time.\
-7.Bubbles rise in a smooth fashion like from underwater.\
+7.Bubbles rise in a smooth fashion like from underwater.
 ## Advanced task:
 1.Bubble color has been left to user choice, normal bubbles not only move but also rotate, and their radius(size) keeps growing dynamically. On collecting a coin inside a bubble(will be shown 'what's inside?' for a few frames even after bubble bursts), the growth rate of radius of bubbles will be halved and will again be restored after 7 seconds. Morever the coin rotation is a sprite sheet implemented. Each bubble on bursting plays an animation of lines coming(growing) out from the circumference and then shrinking.\
 2.Rock bubbles are color changing balls made using sprite sheet. They require 5 clicks to be destroyed and grow dimmer on each click. But player will fetch a score of '1' for each click on rock bubble-total 5 points but it will occupy portion of screen untill 5 clicks.\
