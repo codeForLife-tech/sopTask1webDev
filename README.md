@@ -18,4 +18,4 @@ Same applies when player plays in fast growing bubbles(rate of growth of radius 
 6. Three sounds have been used-A bubble popping sound has been used for each bursting bubble. Morever an alarm beep sound has been used with the timer. A gameover sound is also played consequently.\
 7. High scores are depicted in abar graph drawn sing pure canvas with an interactive background of rotating plus symbols.\
 8. The user can also select the range of initial radius of bubbles in the 'play game difficulty options modal box': 10-16, 20-26, 30-36\
-Almost all features from basic and advanced mode have been implement(along with some extra ones as well).
+Almost all features from basic and advanced mode have been implement (along with some extra ones as well).
