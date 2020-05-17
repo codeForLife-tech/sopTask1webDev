@@ -3,13 +3,14 @@ var c;
 
 document.addEventListener("DOMContentLoaded", function(event) {  
   document.getElementsByClassName("modal1")[0].style.display="none";
-  document.getElementsByClassName("icons")[0].style.display="none";
   canvas = document.getElementById("gameBoard");
   c = canvas.getContext('2d');
   play();
 });
 
 function play() {
+  var waiting;
+  var timeText="";
 var burstSound=new Audio("burst.mp3");
 var gameOverSound=new Audio("error.mp3");
 var coloured=localStorage.getItem("colored");
@@ -19,7 +20,7 @@ var slowDown=0;
 var gameOver=false;
 var multiplier=1;
 console.log(gameOver);
-document.getElementsByClassName("icons")[0].style.display="block";
+document.getElementById("pausing").style.display="block";
 let ballImage = new Image();
 ballImage.src = 'images/bubble.png';
 c.clearRect(0, 0, canvas.width, canvas.height);
@@ -29,6 +30,7 @@ let coinImage = new Image();
 coinImage.src = 'https://www.cat-in-web.ru/wp-content/uploads/coin-sprite-animation.png';
 var t=true;
 var paused=false;
+var flagging = 0;
 var score = 0;
 var accuracy=0;
 var total=0;
@@ -123,8 +125,85 @@ var count = canvas.height;
   // --------------
   // Animation Loop
   // --------------
+var tow,start,ko=6;
+var alarmAudio;
+var timing,interval=1000;
+function settimer() {
+  start=Date.now();
+  alarmAudio=new Audio("alarm.mp3");
+  timeText="00:06";
+  alarmAudio.play();
+  setTiming();
+}
 
-  function animate() {
+function setTiming() {
+  alarmAudio=new Audio("alarm.mp3");
+  if(paused) {
+      interval=(Date.now()-start);
+      interval=1000-interval%1000;
+    }
+  else {
+  timing=setTimeout(function (){
+    console.log(Date.now()-start);
+      ko--;
+      timeText="00:0"+ko;
+      if(ko==-1) {
+        var points=(Math.round((multiplier*score*accuracy)/100));
+        console.log(score, points);
+        var topScores=JSON.parse(localStorage.getItem("scores") || "[]");
+        var q;
+        for (q = 0; q < topScores.length; q++) {
+          if(topScores[q]<points)
+              break;
+      }
+      topScores.splice(q, 0, points);
+      topScores=topScores.slice(0, 10);
+      for(var i=topScores.length; i<10; ++i) {
+          topScores[i]=0;
+      }
+      topScores=topScores.slice(0, 10);
+      localStorage.setItem("scores", JSON.stringify(topScores));
+        
+        gameOverSound.play();
+        t=false;
+          gameOver=true;
+          var W=canvas.width;
+          var H=canvas.height;
+          c.globalAlpha = 0.7;
+          c.fillStyle = '#000';
+          console.log(c.fillStyle, c.globalAlpha);
+          c.fillRect(0,0,W,H);
+          c.globalAlpha = 1;
+          c.textAlign = 'center';
+          c.font = '60px Arial';
+          c.fillStyle = '#000';
+          c.strokeStyle = '#EEE';
+          c.lineWidth = 2;
+          c.fillText('TAP TO RESTART',W/2,H/2);
+          c.strokeText('TAP TO RESTART',W/2,H/2);console.log("yes");
+          c.fillText('GAME OVER',W/2,H/2+60);
+          c.strokeText('GAME OVER',W/2,H/2+60);
+          console.log(111);
+          document.getElementById("pausing").style.display="none";
+          window.cancelAnimationFrame(tow);
+      }
+      else if(ko==0) {
+        timeText="";
+        interval=0;
+        setTiming();
+      }
+      else {
+        console.log(ko);
+        alarmAudio.play();
+        setTiming();
+      }
+    },interval);
+    interval=1000;
+  }
+    
+}
+
+function animate() {
 
 
 console.log(radiusSpeed);
@@ -193,57 +272,45 @@ console.log(radiusSpeed);
     c.textAlign = 'left';
     c.fillText("Score: "+score,10,30);
     c.fillText("Accuracy: "+accuracy+"%",10,65);
+    var W=canvas.width;
+          var H=canvas.height;
+    c.textAlign = 'center';
+          c.font = '60px Arial';
+          c.fillStyle = 'red';
+          c.strokeStyle = '#fff';
+          c.lineWidth = 2;
+          c.fillText(timeText,W/2,H/2);
+          c.strokeText(timeText,W/2,H/2);
     for (var i = 0; i < bubbles.length; i++) {
     if(bubbles[i].count <= canvas.height-bubbles[i].radius) {
       // console.log(canvas.width*canvas.height, totalArea, i);
       totalArea+=Math.pow(bubbles[i].radius*2, 2);
-      
-      var frac=totalArea/(canvas.width*canvas.height);
-      if(frac>=0.5) {
-        var points=(Math.round((multiplier*score*accuracy)/100));
-        console.log(score, points);
-        var topScores=JSON.parse(localStorage.getItem("scores") || "[]");
-        var q;
-        for (q = 0; q < topScores.length; q++) {
-          if(topScores[q]<points)
-              break;
-      }
-      topScores.splice(q, 0, points);
-      topScores=topScores.slice(0, 10);
-      for(var i=topScores.length; i<10; ++i) {
-          topScores[i]=0;
-      }
-      topScores=topScores.slice(0, 10);
-      localStorage.setItem("scores", JSON.stringify(topScores));
-        gameOverSound.play();
-        t=false;
-        console.log(frac+"134");
-          gameOver=true;
-          var W=canvas.width;
-          var H=canvas.height;
-          c.globalAlpha = 0.7;
-          c.fillStyle = '#000';
-          console.log(c.fillStyle, c.globalAlpha);
-          c.fillRect(0,0,W,H);
-          c.globalAlpha = 1;
-          c.textAlign = 'center';
-          c.font = '60px Arial';
-          c.fillStyle = '#000';
-          c.strokeStyle = '#EEE';
-          c.lineWidth = 2;
-          c.fillText('TAP TO RESTART',W/2,H/2);
-          c.strokeText('TAP TO RESTART',W/2,H/2);
-          c.fillText('GAME OVER',W/2,H/2+60);
-          c.strokeText('GAME OVER',W/2,H/2+60);
-          break;
-      }
+    }
   }
-}
+      var frac=totalArea/(canvas.width*canvas.height);
+      if(frac>=0.24 && flagging!=1) {
+        settimer();
+        
+        console.log("ya");
+        flagging=1;
+        console.log(123);
+        // waiting=setTimeout(function() {
+          
+        // },6100);
+      }
+      else if(flagging==1 && frac<0.24) {
+        timeText="";
+        ko=6;
+        clearInterval(timing);
+        console.log("22");
+        flagging=0;
+      }
+    console.log(t);
     
     if(t)
-      window.requestAnimationFrame(animate);
+      tow=window.requestAnimationFrame(animate);
   }
-
+  console.log(33);
   window.requestAnimationFrame(animate);
 
 
@@ -570,8 +637,6 @@ function resolveCollision(particle, otherParticle) {
     mouseOffset.x = e.offsetX;
     mouseOffset.y = e.offsetY;
     for (var i = 0; i < bubbles.length; i++) {
-      
-      console.log(bubbles.length);
       if(mouseOffset.x > bubbles[i].position.x - bubbles[i].radius && mouseOffset.x < bubbles[i].position.x + bubbles[i].radius) {
         if(mouseOffset.y > bubbles[i].position.y - bubbles[i].radius && mouseOffset.y < bubbles[i].position.y + bubbles[i].radius) {
           score+=1;
@@ -639,8 +704,10 @@ function modals(item) {
         span.onclick = function() {
                     modal.style.display = "none";
                     t=true;
-                    requestAnimationFrame(animate);
-                    paused=false;
+                    console.log(2);
+                    paused=false;requestAnimationFrame(animate);
+                    if(flagging==1)
+                      setTiming();
                     }
     }
 }
@@ -652,6 +719,7 @@ function addHtml(button) {
         modalbody.innerHTML="<div class='pauseMenu'><button id='resume'>RESUME</button><button onclick=\"window.location.href='index.html'\">GO TO HOME</button></div>";
     }
     console.log(modalbody);
+    
     var resumeButton=modalbody.querySelector('#resume');
     resumeButton.addEventListener("click", function() {
         document.getElementsByClassName("close1")[0].click();
