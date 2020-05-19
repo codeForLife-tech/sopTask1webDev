@@ -19,7 +19,7 @@ var liquidLuck=2;
 var slowDown=0;
 var gameOver=false;
 var multiplier=1;
-console.log(gameOver);
+
 document.getElementById("pausing").style.display="block";
 let ballImage = new Image();
 ballImage.src = 'images/bubble.png';
@@ -51,7 +51,7 @@ var count = canvas.height;
     x: 0,
     y: 0
   }
-  var factor=((localStorage.getItem("speedFactor")=="true")?1:0.5);
+  var factor=((localStorage.getItem("speedFactor")=="true")?1.3:0.65);
   var radiusSpeed=((localStorage.getItem("radiusGrow")=="true")?0.1:0.05);
   if(factor==1) {
     multiplier*=2;
@@ -59,10 +59,10 @@ var count = canvas.height;
   if(radiusSpeed==0.1) {
     multiplier*=2;
   }
-  console.log(multiplier);
+  
   bubbleSpeed*=factor;
   bubbleSpeedX*=factor;
-  console.log(bubbleSpeed);
+  
   class Sprite {
     constructor(options, scale, locations=[]) {
         this.ctx = options.ctx;
@@ -144,12 +144,12 @@ function setTiming() {
     }
   else {
   timing=setTimeout(function (){
-    console.log(Date.now()-start);
+    
       ko--;
       timeText="00:0"+ko;
       if(ko==-1) {
         var points=(Math.round((multiplier*score*accuracy)/100));
-        console.log(score, points);
+        
         var topScores=JSON.parse(localStorage.getItem("scores") || "[]");
         var q;
         for (q = 0; q < topScores.length; q++) {
@@ -171,7 +171,6 @@ function setTiming() {
           var H=canvas.height;
           c.globalAlpha = 0.7;
           c.fillStyle = '#000';
-          console.log(c.fillStyle, c.globalAlpha);
           c.fillRect(0,0,W,H);
           c.globalAlpha = 1;
           c.textAlign = 'center';
@@ -180,20 +179,20 @@ function setTiming() {
           c.strokeStyle = '#EEE';
           c.lineWidth = 2;
           c.fillText('TAP TO RESTART',W/2,H/2);
-          c.strokeText('TAP TO RESTART',W/2,H/2);console.log("yes");
+          c.strokeText('TAP TO RESTART',W/2,H/2);
           c.fillText('GAME OVER',W/2,H/2+60);
           c.strokeText('GAME OVER',W/2,H/2+60);
-          console.log(111);
+          
           document.getElementById("pausing").style.display="none";
           window.cancelAnimationFrame(tow);
       }
       else if(ko==0) {
         timeText="";
-        interval=0;
+        interval=100;
         setTiming();
       }
       else {
-        console.log(ko);
+        
         alarmAudio.play();
         setTiming();
       }
@@ -206,7 +205,7 @@ function setTiming() {
 function animate() {
 
 
-console.log(radiusSpeed);
+
     // ------------
     // Clear Canvas
     // ------------
@@ -238,11 +237,15 @@ console.log(radiusSpeed);
           resolveCollision(bubbles[i], bubbles[j]);
         }
       }
-      if(bubbles[i].count <= bubbles[i].radius) {
+      if(bubbles[i].count <= bubbles[i].radius+5) {
         bubbles[i].velocity.y*=-1;
         // bubbles[i].count = canvas.height + bubbles[i].yOff;
-          var tempBubble = new createBubble();
-          bubbles.push(tempBubble);
+          console.log(bubbles[i].hit)
+          if(!bubbles[i].hit) {console.log(2, bubbles[i].hit);
+            var tempBubble = new createBubble();
+            bubbles.push(tempBubble);
+            bubbles[i].hit=true;
+          }
       } 
       else if(bubbles[i].count >= canvas.height-bubbles[i].radius && bubbles[i].velocity.y>0) {
         bubbles[i].velocity.y*=-1;
@@ -288,29 +291,29 @@ console.log(radiusSpeed);
     }
   }
       var frac=totalArea/(canvas.width*canvas.height);
-      if(frac>=0.24 && flagging!=1) {
+      if(frac>=0.3 && flagging!=1) {
         settimer();
         
-        console.log("ya");
+        
         flagging=1;
-        console.log(123);
+        
         // waiting=setTimeout(function() {
           
         // },6100);
       }
-      else if(flagging==1 && frac<0.24) {
+      else if(flagging==1 && frac<0.3) {
         timeText="";
         ko=6;
         clearInterval(timing);
-        console.log("22");
+        
         flagging=0;
       }
-    console.log(t);
+    
     
     if(t)
       tow=window.requestAnimationFrame(animate);
   }
-  console.log(33);
+  
   window.requestAnimationFrame(animate);
 
 
@@ -366,6 +369,7 @@ function resolveCollision(particle, otherParticle) {
 
   var createBubble = function() {
     // this.position = {x: 0, y: 0};
+    this.hit=false;
     this.velocity={x: (Math.random()-0.5)*bubbleSpeedX, y:bubbleSpeed};
     this.q=(slowDown<liquidLuck)?Math.random()*2:Math.random()*1.9;
     this.radius = radiusBubble + Math.random() * 6;
@@ -384,7 +388,7 @@ function resolveCollision(particle, otherParticle) {
     }
     for(var ro =0;ro<bubbles.length;ro++) {
       if(getDist(this.position, bubbles[ro].position)<this.radius+bubbles[ro].radius) {
-        console.log("yes");
+        
       }
     }
     this.count = canvas.height + this.yOff;
@@ -470,7 +474,7 @@ function resolveCollision(particle, otherParticle) {
           this.sprite.update();
           this.sprite.render();
           if(this.popping) {
-            console.log(1);
+            
             set =true;
           }
         }
@@ -550,8 +554,11 @@ function resolveCollision(particle, otherParticle) {
               var index=bubbles.indexOf(this);
               if(index>-1)
                 bubbles.splice(index, 1);
-              var tempBubble=new createBubble();
-              bubbles.push(tempBubble);
+                
+                  console.log(2);
+                  var tempBubble = new createBubble();
+                  bubbles.push(tempBubble);
+                
               break;
             }
           }
@@ -669,11 +676,11 @@ function resolveCollision(particle, otherParticle) {
         }
       }
     }
-    console.log(score,total);
+    
     accuracy=((score/total)*100).toFixed(2);
   }
   else if(gameOver) {
-    console.log("yes", gameOver);
+    
     canvas.removeEventListener('click', mouseMove);
     play();
   }
@@ -704,7 +711,7 @@ function modals(item) {
         span.onclick = function() {
                     modal.style.display = "none";
                     t=true;
-                    console.log(2);
+                    
                     paused=false;requestAnimationFrame(animate);
                     if(flagging==1)
                       setTiming();
@@ -718,7 +725,7 @@ function addHtml(button) {
         modalheading.innerHTML="OPTIONS";
         modalbody.innerHTML="<div class='pauseMenu'><button id='resume'>RESUME</button><button onclick=\"window.location.href='index.html'\">GO TO HOME</button></div>";
     }
-    console.log(modalbody);
+    
     
     var resumeButton=modalbody.querySelector('#resume');
     resumeButton.addEventListener("click", function() {
