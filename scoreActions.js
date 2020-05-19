@@ -16,8 +16,8 @@ var colors=["violet", "indigo", "blue", "green", "yellow", "orange", "red", "gol
 function init() {
 		
 	sections = 10;
-	Val_Max = 150;
-	var stepSize = 10;
+	Val_Max = 300;
+	var stepSize = 20;
 	var columnSize = 50;
 	var rowSize = 60;
 	var margin = 10;
