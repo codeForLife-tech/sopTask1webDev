@@ -1,5 +1,5 @@
 
-var canvasEl = document.getElementById('scene');
+
 
 var canvas ;
 var context ;
