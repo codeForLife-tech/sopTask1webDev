@@ -4,7 +4,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
+  /* background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%); */
+  background: linear-gradient(110deg, black 60%, #434343 60%);
 }
 
 .icons img {

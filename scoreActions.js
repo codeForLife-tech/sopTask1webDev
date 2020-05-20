@@ -85,7 +85,7 @@ canvas.style.height=_H*0.8+"px";
 	context.scale(xScale,-1 * yScale);
   
 	for (i=0;i<10;i++) {
-    context.fillStyle=colors[i];
+    context.fillStyle="white";
 		context.fillRect(i+2, 0, 0.3, itemValue[i]);
   }
   
